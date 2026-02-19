@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
+  <title>Yehor Niestierov - Frontend Developer Portfolio</title>
+  <meta name="description" content="Portfolio of Yehor Niestierov, a creative Frontend Developer specialising in Angular, Vue.js and TypeScript.">
+  <meta name="author" content="Yehor Niestierov">
+  <meta property="og:title" content="Yehor Niestierov - Frontend Developer Portfolio">
+  <meta property="og:description" content="Portfolio of Yehor Niestierov, a creative Frontend Developer specialising in Angular, Vue.js and TypeScript.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hardsoncore.github.io">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
@@ -85,10 +92,17 @@
       mix-blend-mode: difference;
     }
 
+    .nav-list {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      gap: 30px;
+    }
+
     nav a {
       color: #fff;
       text-decoration: none;
-      margin-left: 30px;
       font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -309,6 +323,80 @@
       box-shadow: 0 0 20px var(--accent-color);
     }
 
+    /* --- SKIP LINK --- */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--accent-color);
+      color: #000;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 10000;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* --- RESPONSIVE DESIGN --- */
+    @media (max-width: 768px) {
+      nav {
+        top: 20px;
+        right: 20px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      nav a {
+        font-size: 0.8rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      section {
+        padding: 60px 5%;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2rem, 10vw, 4rem);
+      }
+
+      .contact-btn {
+        padding: 15px 30px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        right: 10px;
+      }
+
+      .glass-card {
+        padding: 20px;
+      }
+
+      .tag {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .tv-noise, .tv-noise::before, .glitch, .glitch::before, .glitch::after, .reveal, .scroll-down {
         animation: none !important;
@@ -322,15 +410,18 @@
 </head>
 
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
   <div class="tv-noise"></div>
 
-  <nav>
-    <a href="#about">Bio</a>
-    <a href="#projects">Work</a>
-    <a href="#contact">Contact</a>
+  <nav aria-label="Primary navigation">
+    <ul class="nav-list">
+      <li><a href="#about">Bio</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </nav>
 
-  <main>
+  <main id="main">
     <section id="home">
       <div style="opacity: 0.6; margin-bottom: 10px;">// INITIALIZING_USER_INTERFACE</div>
       <h1 class="hero-title glitch" data-text="NIESTIEROV.Y">NIESTIEROV.Y</h1>
@@ -349,13 +440,13 @@
             scalable and performant web solutions.
           </p>
 
-          </br>
+          <br>
 
           <p>
             I ensure code reliability and accuracy through comprehensive unit testing with Jest.
           </p>
 
-          </br>
+          <br>
 
           <p>
             My work is grounded in a solid understanding of software development principles, design patterns,
@@ -485,13 +576,13 @@
           <br>
           The communication channel is open.
         </p>
-        <a href="https://www.linkedin.com/in/niestierov-yehor" class="contact-btn">LINKED_IN</a>
-        <a href="https://github.com/hardsoncore" class="contact-btn contact-btn--secondary">GIT_HUB</a>
+        <a href="https://www.linkedin.com/in/niestierov-yehor" class="contact-btn" target="_blank" rel="noopener noreferrer">LINKED_IN</a>
+        <a href="https://github.com/hardsoncore" class="contact-btn contact-btn--secondary" target="_blank" rel="noopener noreferrer">GIT_HUB</a>
       </div>
     </section>
   </main>
 
-  <div class="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+  <button class="scroll-top-btn" aria-label="Scroll to top" type="button">↑</button>
 
   <script>
     // add "active" class to .reveal elements when they are in the viewport
@@ -512,7 +603,7 @@
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Убираем active у всех
+          // Remove active class from all links
           navLinks.forEach(link => link.classList.remove('active'));
 
           const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
@@ -527,6 +618,9 @@
 
     // Scroll to Top Logic
     const scrollBtn = document.querySelector('.scroll-top-btn');
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
     window.addEventListener('scroll', () => {
       if (document.documentElement.scrollTop > 1000) {
         scrollBtn.classList.add('visible');
