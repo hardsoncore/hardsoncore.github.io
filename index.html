@@ -591,9 +591,15 @@
           entry.target.classList.add('active');
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 }); // Lowered threshold for better mobile support
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+      // Check if element is already visible on page load
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add('active');
+      }
+    });
 
     // Scroll Spy: highlight nav links based on current section in view
     const sections = document.querySelectorAll('section');
@@ -611,7 +617,7 @@
           }
         }
       });
-    }, { threshold: 0.5 }); // 50% of the section must be visible to trigger
+    }, { threshold: 0.3 }); // Adjusted for better mobile navigation highlighting
 
     sections.forEach(section => navObserver.observe(section));
 
