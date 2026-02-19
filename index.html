@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #050505;
+      --accent-color: #00f2ff; /* Cyan */
+      --secondary-color: #ff0055; /* Pink neon for accents */
+      --glass-bg: rgba(255, 255, 255, 0.02);
+      --text-color: #e0e0e0;
+      --font-main: 'Space Mono', monospace;
+      --font-display: 'Syncopate', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 9999;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+    }
+
+    /* --- NOISE EFFECTS --- */
+    .tv-noise {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.08;
+      background: repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0/2500px 2500px,
+                  repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 0/2500px 2500px;
+      background-blend-mode: difference;
+      animation: noise-anim 0.4s infinite;
+      transform: translate3d(0, 0, 0); /* Optimization for Safari/Webkit: hints for GPU compositing */
+      will-change: transform;
+    }
+
+    .tv-noise::before {
+      content: "";
+      position: absolute;
+      top: -100%; left: -100%; width: 300%; height: 300%;
+      background-image: inherit;
+    }
+
+    @keyframes noise-anim {
+      0% { transform: translate3d(0,0,0) }
+      10% { transform: translate3d(-5%,-5%,0) }
+      20% { transform: translate3d(-10%,5%,0) }
+      30% { transform: translate3d(5%,-10%,0) }
+      40% { transform: translate3d(-5%,15%,0) }
+      50% { transform: translate3d(-10%,5%,0) }
+      60% { transform: translate3d(15%,0,0) }
+      70% { transform: translate3d(0,10%,0) }
+      80% { transform: translate3d(-15%,0,0) }
+      90% { transform: translate3d(10%,5%,0) }
+      100% { transform: translate3d(5%,0,0) }
+    }
+
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed;
+      top: 30px; right: 50px;
+      z-index: 1000;
+      mix-blend-mode: difference;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    nav a::before {
+      content: '>';
+      position: absolute;
+      left: -15px;
+      opacity: 0;
+      color: var(--accent-color);
+      transition: 0.3s;
+    }
+
+    nav a:hover::before { opacity: 1; left: -20px; }
+
+    nav a.active { color: var(--accent-color); }
+    nav a.active::before { opacity: 1; left: -20px; }
+
+    /* --- SECTION STYLES --- */
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 10%;
+      position: relative;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+      position: relative;
+    }
+
+    /* --- ANIMATION APPEARANCE --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- MAIN --- */
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+      position: relative;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    /* --- GLITCH EFFECT (TEXT) --- */
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+    }
+
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 var(--secondary-color);
+      clip: rect(24px, 550px, 90px, 0);
+      animation: glitch-anim-text 3s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 var(--accent-color);
+      clip: rect(85px, 550px, 140px, 0);
+      animation: glitch-anim-text 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-text {
+      0% { clip: rect(10px, 9999px, 80px, 0); }
+      20% { clip: rect(90px, 9999px, 10px, 0); }
+      40% { clip: rect(40px, 9999px, 50px, 0); }
+      60% { clip: rect(70px, 9999px, 20px, 0); }
+      80% { clip: rect(20px, 9999px, 60px, 0); }
+      100% { clip: rect(50px, 9999px, 90px, 0); }
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      letter-spacing: 4px;
+      margin-bottom: 50px;
+    }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      opacity: 0.5;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 10px); }
+    }
+
+    /* --- GRID AND CARDS BLOCKS --- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+      width: 100%;
+    }
+
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      transition: 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card:hover {
+      border-color: var(--accent-color);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+    }
+
+    .glass-card h3 {
+      font-family: var(--font-display);
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.85rem;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 5px 10px;
+      margin-right: 5px;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    /* --- CONTACTS --- */
+    .contact-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 20px 50px;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 2px;
+      transition: 0.3s;
+      background: rgba(0, 242, 255, 0.05);
+    }
+
+    .contact-btn:hover {
+      background: var(--accent-color);
+      color: #000;
+      box-shadow: 0 0 40px var(--accent-color);
+    }
+
+    .contact-btn--secondary:hover {
+      background: var(--secondary-color);
+      color: #000;
+      box-shadow: 0 0 40px var(--secondary-color);
+    }
+
+    /* --- SCROLL TOP BUTTON --- */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--glass-bg);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+      font-size: 1.5rem;
+    }
+
+    .scroll-top-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .scroll-top-btn:hover {
+      background: var(--accent-color);
+      color: #000;
+      box-shadow: 0 0 20px var(--accent-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tv-noise, .tv-noise::before, .glitch, .glitch::before, .glitch::after, .reveal, .scroll-down {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+      }
+
+      .reveal { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tv-noise"></div>
+
+  <nav>
+    <a href="#about">Bio</a>
+    <a href="#projects">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section id="home">
+      <div style="opacity: 0.6; margin-bottom: 10px;">// INITIALIZING_USER_INTERFACE</div>
+      <h1 class="hero-title glitch" data-text="NIESTIEROV.Y">NIESTIEROV.Y</h1>
+      <p class="subtitle">CREATIVE FRONTEND DEV</p>
+      <div class="scroll-down">SCROLL_TO_EXPLORE</div>
+    </section>
+
+    <section id="about" class="reveal">
+      <h2>01. DATA_LOG</h2>
+
+      <div class="grid">
+        <div class="glass-card">
+          <h3>// BIOGRAPHY</h3>
+          <p>
+            My core expertise centers on Angular and Vue, backed by TypeScript and JavaScript, allowing me to deliver
+            scalable and performant web solutions.
+          </p>
+
+          </br>
+
+          <p>
+            I ensure code reliability and accuracy through comprehensive unit testing with Jest.
+          </p>
+
+          </br>
+
+          <p>
+            My work is grounded in a solid understanding of software development principles, design patterns,
+            and best practices.
+          </p>
+
+          <br>
+
+          <p style="opacity: 0.5;">LOCATION: [GDANSK, POLAND]</p>
+          <p style="opacity: 0.5;">PREFERABLE FORMAT: [REMOTE]</p>
+        </div>
+
+        <div class="glass-card">
+          <h3>// TECH_STACK</h3>
+
+          <div style="margin-top: 20px;">
+            <p style="opacity: 0.5;">// WEB</p>
+            <span class="tag">HTML5/CSS3</span>
+            <span class="tag">PUG</span>
+            <span class="tag">LESS/SCSS</span>
+            <span class="tag">JavaScript (ES6+)</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Angular</span>
+            <span class="tag">Vue.js</span>
+            <span class="tag">Ionic</span>
+            <span class="tag">Angular Material</span>
+            <span class="tag">Bootstrap</span>
+            <br>
+            <br>
+
+            <p style="opacity: 0.5;">// BACKEND</p>
+            <span class="tag">Node.js</span>
+            <span class="tag">Express.js</span>
+            <span class="tag">Firebase</span>
+            <br>
+            <br>
+
+            <p style="opacity: 0.5;">// TOOLS</p>
+            <span class="tag">Jest</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">GIT</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <h2>02. WORK_ARCHIVE</h2>
+
+      <div class="grid">
+        <div class="glass-card">
+          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
+            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [PHARMA]</div>
+            <p style="opacity: .5;">AUG 2023-JAN 2026</p>
+          </div>
+          <h3>CONTENT_COMPLIANCE_PLATFORM</h3>
+
+          <p style="margin-bottom: 20px;">
+            A secure web application designed to streamline content creation and multi-level
+            verification. It enforces strict compliance with standards and regulatory guidelines,
+            reducing approval times and eliminating compliance risks.
+          </p>
+          <div class="tag">PUG</div>
+          <div class="tag">VUE.JS 2</div>
+          <div class="tag">TYPESCRIPT</div>
+          <div class="tag">MICROSERVICES</div>
+        </div>
+
+        <div class="glass-card">
+          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
+            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [PHARMA]</div>
+            <p style="opacity: .5;">JUL 2025-PRESENT</p>
+          </div>
+          <h3>WORKFLOW_SCHEDULLING_PORTAL</h3>
+
+          <p style="margin-bottom: 20px;">
+            Engineered a time management web application to optimize routine workflows.
+            The platform provides a structured approach to meeting scheduling and task organization,
+            resulting in seamless collaboration and increased team efficiency.
+          </p>
+          <div class="tag">VUE 3</div>
+          <div class="tag">TYPESCRIPT</div>
+          <div class="tag">FIREBASE</div>
+        </div>
+
+        <div class="glass-card">
+          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
+            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [TELECOM]</div>
+            <p style="opacity: .5;">MAY 2019-JAN 2022</p>
+          </div>
+          <h3>NETWORK_MONITOR</h3>
+
+          <p style="margin-bottom: 20px;">
+            A dynamic web application that visualizes mobile network data in real time. It transforms complex metrics into clear,
+            actionable insights, empowering engineers to instantly detect issues, optimize network performance, and make data-driven
+            decisions.
+          </p>
+          <div class="tag">ANGULAR</div>
+          <div class="tag">IONIC</div>
+          <div class="tag">D3.JS</div>
+        </div>
+
+        <div class="glass-card">
+          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
+            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [FINTECH]</div>
+            <p style="opacity: .5;">APR 2025-PRESENT</p>
+          </div>
+          <h3>WALLET_APP</h3>
+
+          <p style="margin-bottom: 20px;">
+            Personal finance dashboard for comprehensive budget management.
+            The application delivers seamless expense tracking, dynamic currency conversion, and intuitive
+            data visualization, providing users with clear insights into their financial health.
+          </p>
+          <div class="tag">ANGULAR</div>
+          <div class="tag">IONIC</div>
+          <div class="tag">FIREBASE</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2>03. CONTACT_ME</h2>
+      <div style="text-align: left; max-width: 650px;">
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">
+          Need code that breaks stereotypes (or production :) ?
+          <br>
+          The communication channel is open.
+        </p>
+        <a href="https://www.linkedin.com/in/niestierov-yehor" class="contact-btn">LINKED_IN</a>
+        <a href="https://github.com/hardsoncore" class="contact-btn contact-btn--secondary">GIT_HUB</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
+
+  <script>
+    // add "active" class to .reveal elements when they are in the viewport
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Scroll Spy: highlight nav links based on current section in view
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Убираем active у всех
+          navLinks.forEach(link => link.classList.remove('active'));
+
+          const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+          if (activeLink) {
+            activeLink.classList.add('active');
+          }
+        }
+      });
+    }, { threshold: 0.5 }); // 50% of the section must be visible to trigger
+
+    sections.forEach(section => navObserver.observe(section));
+
+    // Scroll to Top Logic
+    const scrollBtn = document.querySelector('.scroll-top-btn');
+    window.addEventListener('scroll', () => {
+      if (document.documentElement.scrollTop > 1000) {
+        scrollBtn.classList.add('visible');
+      } else {
+        scrollBtn.classList.remove('visible');
+      }
+    });
+  </script>
+</body>
+</html>
