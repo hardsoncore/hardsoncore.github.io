@@ -84,6 +84,23 @@
       100% { transform: translate3d(5%,0,0) }
     }
 
+    /* Safari-specific optimization */
+    body.is-safari .tv-noise {
+      opacity: 0.03;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 768px) {
+      .tv-noise {
+        animation: none;
+        opacity: 0.04;
+      }
+
+      .tv-noise::before {
+        animation: none;
+      }
+    }
+
     /* --- NAVIGATION --- */
     nav {
       position: fixed;
@@ -584,6 +601,12 @@
   <button class="scroll-top-btn" aria-label="Scroll to top" type="button">↑</button>
 
   <script>
+    // Detect Safari browser and add class for specific optimizations
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) {
+      document.body.classList.add('is-safari');
+    }
+
     // add "active" class to .reveal elements when they are in the viewport
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
