@@ -153,6 +153,12 @@
     nav a.active { color: var(--accent-color); }
     nav a.active::before { opacity: 1; left: -20px; }
 
+    /* Fix sticky hover on mobile/touch devices */
+    @media (hover: none) {
+      .nav-list a:hover::before { opacity: 0; }
+      .nav-list a.active::before { opacity: 1; left: -20px; }
+    }
+
     /* --- SECTION STYLES --- */
     section {
       min-height: 100vh;
