@@ -394,10 +394,12 @@
       pointer-events: all;
     }
 
-    .scroll-top-btn:hover {
-      background: var(--accent-color);
-      color: var(--text-black);
-      box-shadow: 0 0 20px var(--accent-color);
+    @media (hover: hover) {
+      .scroll-top-btn:hover {
+        background: var(--accent-color);
+        color: var(--text-black);
+        box-shadow: 0 0 20px var(--accent-color);
+      }
     }
 
     /* --- SKIP LINK --- */
