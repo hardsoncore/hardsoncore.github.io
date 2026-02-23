@@ -391,6 +391,7 @@
       .contact-btn {
         padding: 15px 30px;
         font-size: 0.9rem;
+        text-align: center;
       }
     }
 
@@ -410,6 +411,15 @@
       .tag {
         font-size: 0.75rem;
         padding: 4px 8px;
+      }
+
+      .contact-btns-wrapper {
+        display: flex;
+        gap: 15px;
+      }
+
+      .contact-btn {
+        flex: 1;
       }
     }
 
@@ -440,7 +450,7 @@
   <main id="main">
     <section id="home">
       <div style="opacity: 0.6; margin-bottom: 10px;">// INITIALIZING_USER_INTERFACE</div>
-      <h1 class="hero-title glitch" data-text="NIESTIEROV.Y">NIESTIEROV.Y</h1>
+      <h1 class="hero-title glitch" data-text="Y.NIESTIEROV">Y.NIESTIEROV</h1>
       <p class="subtitle">CREATIVE FRONTEND DEV</p>
       <div class="scroll-down">SCROLL_TO_EXPLORE</div>
     </section>
@@ -592,8 +602,10 @@
           <br>
           The communication channel is open.
         </p>
-        <a href="https://www.linkedin.com/in/niestierov-yehor" class="contact-btn" target="_blank" rel="noopener noreferrer">LINKED_IN</a>
-        <a href="https://github.com/hardsoncore" class="contact-btn contact-btn--secondary" target="_blank" rel="noopener noreferrer">GIT_HUB</a>
+        <div class="contact-btns-wrapper">
+          <a href="https://www.linkedin.com/in/niestierov-yehor" class="contact-btn" target="_blank" rel="noopener noreferrer">LINKED_IN</a>
+          <a href="https://github.com/hardsoncore" class="contact-btn contact-btn--secondary" target="_blank" rel="noopener noreferrer">GIT_HUB</a>
+        </div>
       </div>
     </section>
   </main>
