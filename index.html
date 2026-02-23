@@ -21,11 +21,24 @@
       --secondary-color: #ff0055; /* Pink neon for accents */
       --glass-bg: rgba(255, 255, 255, 0.02);
       --text-color: #e0e0e0;
+      --text-black: #000;
       --font-main: 'Space Mono', monospace;
       --font-display: 'Syncopate', sans-serif;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    ::selection {
+      background: var(--accent-color);
+      color: var(--text-black);
+      text-shadow: none;
+    }
+
+    ::-moz-selection {
+      background: var(--accent-color);
+      color: var(--text-black);
+      text-shadow: none;
+    }
 
     html { scroll-behavior: smooth; }
 
@@ -310,6 +323,7 @@
     }
 
     .glass-card h3 {
+      word-break: break-word;
       font-family: var(--font-display);
       margin-bottom: 15px;
       color: #fff;
@@ -343,13 +357,13 @@
 
     .contact-btn:hover {
       background: var(--accent-color);
-      color: #000;
+      color: var(--text-black);
       box-shadow: 0 0 40px var(--accent-color);
     }
 
     .contact-btn--secondary:hover {
       background: var(--secondary-color);
-      color: #000;
+      color: var(--text-black);
       box-shadow: 0 0 40px var(--secondary-color);
     }
 
@@ -382,7 +396,7 @@
 
     .scroll-top-btn:hover {
       background: var(--accent-color);
-      color: #000;
+      color: var(--text-black);
       box-shadow: 0 0 20px var(--accent-color);
     }
 
@@ -392,7 +406,7 @@
       top: -40px;
       left: 0;
       background: var(--accent-color);
-      color: #000;
+      color: var(--text-black);
       padding: 8px;
       text-decoration: none;
       z-index: 10000;
