@@ -160,6 +160,52 @@
       position: relative;
     }
 
+
+    .text-dim {
+      opacity: 0.5;
+    }
+
+    .text-dim-60 {
+      opacity: 0.6;
+    }
+
+    .mb-10 {
+      margin-bottom: 10px;
+    }
+
+    .mb-20 {
+      margin-bottom: 20px;
+    }
+
+    .mb-30 {
+      margin-bottom: 30px;
+    }
+
+    .mt-20 {
+      margin-top: 20px;
+    }
+
+    .project-header {
+      font-size: 0.8rem;
+      justify-content: space-between;
+      display: flex;
+    }
+
+    .project-domain {
+      color: var(--secondary-color);
+      margin-bottom: 10px;
+    }
+
+    .contact-container {
+        text-align: left;
+        max-width: 650px;
+    }
+
+    .contact-intro {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
     /* --- ANIMATION APPEARANCE --- */
     .reveal {
       opacity: 0;
@@ -449,7 +495,7 @@
 
   <main id="main">
     <section id="home">
-      <div style="opacity: 0.6; margin-bottom: 10px;">// INITIALIZING_USER_INTERFACE</div>
+      <div class="text-dim-60 mb-10">// INITIALIZING_USER_INTERFACE</div>
       <h1 class="hero-title glitch" data-text="Y.NIESTIEROV">Y.NIESTIEROV</h1>
       <p class="subtitle">CREATIVE FRONTEND DEV</p>
       <div class="scroll-down">SCROLL_TO_EXPLORE</div>
@@ -481,15 +527,15 @@
 
           <br>
 
-          <p style="opacity: 0.5;">LOCATION: [GDANSK, POLAND]</p>
-          <p style="opacity: 0.5;">PREFERABLE FORMAT: [REMOTE]</p>
+          <p class="text-dim">LOCATION: [GDANSK, POLAND]</p>
+          <p class="text-dim">PREFERABLE FORMAT: [REMOTE]</p>
         </div>
 
         <div class="glass-card">
           <h3>// TECH_STACK</h3>
 
-          <div style="margin-top: 20px;">
-            <p style="opacity: 0.5;">// WEB</p>
+          <div class="mt-20">
+            <p class="text-dim">// WEB</p>
             <span class="tag">HTML5/CSS3</span>
             <span class="tag">PUG</span>
             <span class="tag">LESS/SCSS</span>
@@ -503,14 +549,14 @@
             <br>
             <br>
 
-            <p style="opacity: 0.5;">// BACKEND</p>
+            <p class="text-dim">// BACKEND</p>
             <span class="tag">Node.js</span>
             <span class="tag">Express.js</span>
             <span class="tag">Firebase</span>
             <br>
             <br>
 
-            <p style="opacity: 0.5;">// TOOLS</p>
+            <p class="text-dim">// TOOLS</p>
             <span class="tag">Jest</span>
             <span class="tag">CI/CD</span>
             <span class="tag">GIT</span>
@@ -524,13 +570,13 @@
 
       <div class="grid">
         <div class="glass-card">
-          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
-            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [PHARMA]</div>
-            <p style="opacity: .5;">AUG 2023-JAN 2026</p>
+          <div class="project-header">
+            <div class="project-domain">DOMAIN: [PHARMA]</div>
+            <p class="text-dim">AUG 2023-JAN 2026</p>
           </div>
           <h3>CONTENT_COMPLIANCE_PLATFORM</h3>
 
-          <p style="margin-bottom: 20px;">
+          <p class="mb-20">
             A secure web application designed to streamline content creation and multi-level
             verification. It enforces strict compliance with standards and regulatory guidelines,
             reducing approval times and eliminating compliance risks.
@@ -542,13 +588,13 @@
         </div>
 
         <div class="glass-card">
-          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
-            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [PHARMA]</div>
-            <p style="opacity: .5;">JUL 2025-PRESENT</p>
+          <div class="project-header">
+            <div class="project-domain">DOMAIN: [PHARMA]</div>
+            <p class="text-dim">JUL 2025-PRESENT</p>
           </div>
           <h3>WORKFLOW_SCHEDULLING_PORTAL</h3>
 
-          <p style="margin-bottom: 20px;">
+          <p class="mb-20">
             Engineered a time management web application to optimize routine workflows.
             The platform provides a structured approach to meeting scheduling and task organization,
             resulting in seamless collaboration and increased team efficiency.
@@ -559,13 +605,13 @@
         </div>
 
         <div class="glass-card">
-          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
-            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [TELECOM]</div>
-            <p style="opacity: .5;">MAY 2019-JAN 2022</p>
+          <div class="project-header">
+            <div class="project-domain">DOMAIN: [TELECOM]</div>
+            <p class="text-dim">MAY 2019-JAN 2022</p>
           </div>
           <h3>NETWORK_MONITOR</h3>
 
-          <p style="margin-bottom: 20px;">
+          <p class="mb-20">
             A dynamic web application that visualizes mobile network data in real time. It transforms complex metrics into clear,
             actionable insights, empowering engineers to instantly detect issues, optimize network performance, and make data-driven
             decisions.
@@ -576,13 +622,13 @@
         </div>
 
         <div class="glass-card">
-          <div style="font-size: 0.8rem; justify-content: space-between; display: flex;">
-            <div style="color: var(--secondary-color); margin-bottom: 10px;">DOMAIN: [FINTECH]</div>
-            <p style="opacity: .5;">APR 2025-PRESENT</p>
+          <div class="project-header">
+            <div class="project-domain">DOMAIN: [FINTECH]</div>
+            <p class="text-dim">APR 2025-PRESENT</p>
           </div>
           <h3>WALLET_APP</h3>
 
-          <p style="margin-bottom: 20px;">
+          <p class="mb-20">
             Personal finance dashboard for comprehensive budget management.
             The application delivers seamless expense tracking, dynamic currency conversion, and intuitive
             data visualization, providing users with clear insights into their financial health.
@@ -596,9 +642,9 @@
 
     <section id="contact" class="reveal">
       <h2>03. CONTACT_ME</h2>
-      <div style="text-align: left; max-width: 650px;">
-        <p style="font-size: 1.2rem; margin-bottom: 30px;">
-          Need code that breaks stereotypes (or production :) ?
+      <div class="contact-container">
+        <p class="contact-intro">
+          Need code that breaks stereotypes?
           <br>
           The communication channel is open.
         </p>
