@@ -10,730 +10,657 @@
   <meta property="og:description" content="Portfolio of Yehor Niestierov, a creative Frontend Developer specialising in Angular, Vue.js and TypeScript.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hardsoncore.github.io">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
+    /* ─── RESET & VARIABLES ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg-color: #050505;
-      --accent-color: #00f2ff; /* Cyan */
-      --secondary-color: #ff0055; /* Pink neon for accents */
-      --glass-bg: rgba(255, 255, 255, 0.02);
-      --text-color: #e0e0e0;
-      --text-black: #000;
-      --font-main: 'Space Mono', monospace;
-      --font-display: 'Syncopate', sans-serif;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    ::selection {
-      background: var(--accent-color);
-      color: var(--text-black);
-      text-shadow: none;
-    }
-
-    ::-moz-selection {
-      background: var(--accent-color);
-      color: var(--text-black);
-      text-shadow: none;
+      --yellow:    #FFE000;
+      --black:     #0A0A0A;
+      --white:     #F5F5F5;
+      --red:       #FF2D55;
+      --cyan:      #00E5FF;
+      --pink:      #FF6EC7;
+      --blue:      #1A1AFF;
+      --ghost-bg:  #111111;
+      --dot:       rgba(255, 224, 0, 0.15);
+      --font:      'Press Start 2P', monospace;
+      --border:    3px dashed var(--yellow);
+      --border-solid:    3px solid var(--yellow);
+      --gap:       clamp(16px, 4vw, 48px);
+      --text-white: rgba(245, 245, 245, 0.9);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: var(--font-main);
+      font-family: var(--font);
+      background-color: var(--black);
+      color: var(--white);
       overflow-x: hidden;
-      position: relative;
     }
 
-    body::after {
-      content: " ";
-      display: block;
+    /* ─── DOT GRID BACKGROUND ───────────────────────────────── */
+    body::before {
+      content: '';
       position: fixed;
-      top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-      z-index: 9999;
-      background-size: 100% 2px, 3px 100%;
+      inset: 0;
+      background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+      background-size: 36px 36px;
       pointer-events: none;
+      z-index: 0;
     }
 
-    /* --- NOISE EFFECTS --- */
-    .tv-noise {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100%;
-      pointer-events: none;
-      z-index: 9998;
-      opacity: 0.08;
-      background: repeating-radial-gradient(#000 0 0.0001%, #fff 0 0.0002%) 50% 0/2500px 2500px,
-                  repeating-conic-gradient(#000 0 0.0001%, #fff 0 0.0002%) 60% 0/2500px 2500px;
-      background-blend-mode: difference;
-      animation: noise-anim 0.4s infinite;
-      transform: translate3d(0, 0, 0); /* Optimization for Safari/Webkit: hints for GPU compositing */
-      will-change: transform;
-    }
+    /* ─── SCROLL BAR ────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--yellow); }
 
-    .tv-noise::before {
-      content: "";
-      position: absolute;
-      top: -100%; left: -100%; width: 300%; height: 300%;
-      background-image: inherit;
-    }
-
-    @keyframes noise-anim {
-      0% { transform: translate3d(0,0,0) }
-      10% { transform: translate3d(-5%,-5%,0) }
-      20% { transform: translate3d(-10%,5%,0) }
-      30% { transform: translate3d(5%,-10%,0) }
-      40% { transform: translate3d(-5%,15%,0) }
-      50% { transform: translate3d(-10%,5%,0) }
-      60% { transform: translate3d(15%,0,0) }
-      70% { transform: translate3d(0,10%,0) }
-      80% { transform: translate3d(-15%,0,0) }
-      90% { transform: translate3d(10%,5%,0) }
-      100% { transform: translate3d(5%,0,0) }
-    }
-
-    /* Safari-specific optimization */
-    body.is-safari .tv-noise {
-      opacity: 0.03;
-    }
-
-    /* Mobile optimization */
-    @media (max-width: 768px) {
-      .tv-noise {
-        animation: none;
-        opacity: 0.04;
-      }
-
-      .tv-noise::before {
-        animation: none;
-      }
-    }
-
-    /* --- NAVIGATION --- */
-    nav {
-      position: fixed;
-      top: 30px; right: 50px;
-      z-index: 1000;
-      mix-blend-mode: difference;
-    }
-
-    .nav-list {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-      gap: 30px;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.9rem;
+    /* ─── UTILITIES ─────────────────────────────────────────── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 var(--gap); }
+    .tag {
+      display: inline-block;
+      font-size: 0.5rem;
+      padding: 4px 10px;
+      border: 2px solid currentColor;
+      line-height: 1.8;
       text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .tag--yellow { color: var(--yellow); }
+    .tag--cyan   { color: var(--cyan);   }
+    .tag--pink   { color: var(--pink);   }
+    .tag--red    { color: var(--red);    }
+
+    /* ─── PIXEL BLINK CURSOR ────────────────────────────────── */
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ─── NAVBAR ────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      border-bottom: var(--border);
+      padding: 16px var(--gap);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      color: var(--yellow);
+      text-decoration: none;
       letter-spacing: 2px;
-      position: relative;
     }
-
-    nav a::before {
-      content: '>';
-      position: absolute;
-      left: -15px;
-      opacity: 0;
-      color: var(--accent-color);
-      transition: 0.3s;
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
     }
-
-    nav a:hover::before { opacity: 1; left: -20px; }
-
-    nav a.active { color: var(--accent-color); }
-    nav a.active::before { opacity: 1; left: -20px; }
-
-    /* Fix sticky hover on mobile/touch devices */
-    @media (hover: none) {
-      .nav-list a:hover::before { opacity: 0; }
-      .nav-list a.active::before { opacity: 1; left: -20px; }
+    .nav-links a {
+      font-size: 0.75rem;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--yellow); }
+    .nav-cta {
+      font-family: var(--font);
+      font-size: 0.5rem;
+      background: var(--yellow);
+      color: var(--black);
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--white); }
 
-    /* --- SECTION STYLES --- */
-    section {
+    /* ─── HERO ──────────────────────────────────────────────── */
+    #hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 80px 10%;
-      position: relative;
-    }
-
-    h2 {
-      font-family: var(--font-display);
-      font-size: 3rem;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.5);
-      position: relative;
-    }
-
-
-    .text-dim {
-      opacity: 0.5;
-    }
-
-    .text-dim-60 {
-      opacity: 0.6;
-    }
-
-    .mb-10 {
-      margin-bottom: 10px;
-    }
-
-    .mb-20 {
-      margin-bottom: 20px;
-    }
-
-    .mb-30 {
-      margin-bottom: 30px;
-    }
-
-    .mt-20 {
-      margin-top: 20px;
-    }
-
-    .project-header {
-      font-size: 0.8rem;
-      justify-content: space-between;
-      display: flex;
-    }
-
-    .project-domain {
-      color: var(--secondary-color);
-      margin-bottom: 10px;
-    }
-
-    .contact-container {
-        text-align: left;
-        max-width: 650px;
-    }
-
-    .contact-intro {
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-    }
-
-    /* --- ANIMATION APPEARANCE --- */
-    .reveal {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* --- MAIN --- */
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 700;
-      line-height: 1;
-      text-transform: uppercase;
-      position: relative;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-
-    /* --- GLITCH EFFECT (TEXT) --- */
-    .glitch {
-      position: relative;
-    }
-
-    .glitch::before, .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-    }
-
-    .glitch::before {
-      left: 2px;
-      text-shadow: -2px 0 var(--secondary-color);
-      clip: rect(24px, 550px, 90px, 0);
-      animation: glitch-anim-text 3s infinite linear alternate-reverse;
-    }
-
-    .glitch::after {
-      left: -2px;
-      text-shadow: -2px 0 var(--accent-color);
-      clip: rect(85px, 550px, 140px, 0);
-      animation: glitch-anim-text 2s infinite linear alternate-reverse;
-    }
-
-    @keyframes glitch-anim-text {
-      0% { clip: rect(10px, 9999px, 80px, 0); }
-      20% { clip: rect(90px, 9999px, 10px, 0); }
-      40% { clip: rect(40px, 9999px, 50px, 0); }
-      60% { clip: rect(70px, 9999px, 20px, 0); }
-      80% { clip: rect(20px, 9999px, 60px, 0); }
-      100% { clip: rect(50px, 9999px, 90px, 0); }
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      color: var(--accent-color);
-      letter-spacing: 4px;
-      margin-bottom: 50px;
-    }
-
-    .scroll-down {
-      position: absolute;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.8rem;
-      opacity: 0.5;
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translate(-50%, 0); }
-      50% { transform: translate(-50%, 10px); }
-    }
-
-    /* --- GRID AND CARDS BLOCKS --- */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 30px;
-      width: 100%;
-    }
-
-    .glass-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      transition: 0.4s;
+      padding: 80px var(--gap) 60px;
       position: relative;
       overflow: hidden;
     }
+    .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
 
-    .glass-card:hover {
-      border-color: var(--accent-color);
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
-    }
-
-    .glass-card h3 {
-      word-break: break-word;
-      font-family: var(--font-display);
-      margin-bottom: 15px;
-      color: #fff;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 0.85rem;
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
-      padding: 5px 10px;
-      margin-right: 5px;
-      margin-top: 10px;
-      text-transform: uppercase;
-    }
-
-    /* --- CONTACTS --- */
-    .contact-btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 20px 50px;
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
-      text-decoration: none;
-      text-transform: uppercase;
-      font-weight: bold;
-      letter-spacing: 2px;
-      transition: 0.3s;
-      background: rgba(0, 242, 255, 0.05);
-    }
-
-    .contact-btn:hover {
-      background: var(--accent-color);
-      color: var(--text-black);
-      box-shadow: 0 0 40px var(--accent-color);
-    }
-
-    .contact-btn--secondary:hover {
-      background: var(--secondary-color);
-      color: var(--text-black);
-      box-shadow: 0 0 40px var(--secondary-color);
-    }
-
-    /* --- SCROLL TOP BUTTON --- */
-    .scroll-top-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: var(--glass-bg);
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
+    .hero-score-bar {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      font-size: 0.65rem;
+      color: var(--yellow);
+      opacity: 0.8;
+    }
+    .hero-score-bar span strong { color: var(--white); }
+
+    .hero-title {
+      font-size: clamp(1.4rem, 10vw, 5rem);
+      line-height: 1.4;
+      color: var(--yellow);
+      text-shadow: 4px 4px 0 var(--red), 8px 8px 0 rgba(255,45,85,0.3);
+      margin-bottom: 24px;
+      max-width: 900px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--white);
+      text-shadow: 4px 4px 0 var(--blue);
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: rgba(245,245,245,0.65);
+      line-height: 2.2;
+      margin-bottom: 48px;
+    }
+
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: var(--font);
+      background: var(--yellow);
+      color: var(--black);
+      border: none;
+      padding: 16px 32px;
       cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.3s;
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-      font-size: 1.5rem;
-    }
-
-    .scroll-top-btn.visible {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    @media (hover: hover) {
-      .scroll-top-btn:hover {
-        background: var(--accent-color);
-        color: var(--text-black);
-        box-shadow: 0 0 20px var(--accent-color);
-      }
-    }
-
-    /* --- SKIP LINK --- */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: var(--accent-color);
-      color: var(--text-black);
-      padding: 8px;
       text-decoration: none;
-      z-index: 10000;
+      transition: transform 0.1s, box-shadow 0.1s;
+      box-shadow: 4px 4px 0 var(--red);
+    }
+    .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--red); }
+    .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--red); }
+
+    .btn-ghost {
+      font-family: var(--font);
+      font-size: clamp(15px, 2vw, 1.5rem);
+      background: transparent;
+      color: var(--white);
+      border: var(--border);
+      padding: 16px 32px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { background: var(--yellow); color: var(--black); }
+
+    /* Pac-Man animation */
+    .pacman-hero {
+      position: absolute;
+      right: clamp(2rem, 24%, 6vw);
+      top: 35%;
+      transform: translateY(-50%);
+      opacity: 0.2;
+      font-size: clamp(1.4rem, 14vw, 15rem);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(-50%)} 50%{transform:translateY(calc(-50% - 20px))} }
+
+    /* ─── GHOST CARDS (SKILLS) ──────────────────────────────── */
+    #skills {
+      padding: 80px var(--gap);
+      position: relative;
     }
 
-    .skip-link:focus {
-      top: 0;
+    .section-label {
+      font-size: 1.5rem;
+      color: var(--yellow);
+      letter-spacing: 2px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 3px solid rgba(255,224,0,0.3);
+      padding-bottom: .5rem;
+      padding-left: .5rem;
     }
 
-    /* --- RESPONSIVE DESIGN --- */
+    /* ─── PROJECTS ──────────────────────────────────────────── */
+    #projects { padding: 80px var(--gap); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      border: 3px solid rgba(255,224,0,0.2);
+      background: var(--ghost-bg);
+      padding: 32px;
+      position: relative;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card:hover {
+      border-color: var(--yellow);
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--yellow);
+    }
+    .project-number {
+      font-size: 0.5rem;
+      color: var(--yellow);
+      opacity: 0.4;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-size: 0.75rem;
+      color: var(--white);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .project-desc {
+      color: rgba(245,245,245,0.65);
+      font-family: monospace;
+      line-height: 2.2;
+      margin-bottom: 24px;
+    }
+    .project-footer {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255,224,0,0.15);
+      padding-top: 20px;
+    }
+
+    /* ─── ABOUT / TERMINAL ──────────────────────────────────── */
+    #about { padding: 80px var(--gap); }
+    .about-grid {}
+    .about-text h2 {
+      font-size: clamp(1rem, 3vw, 1.8rem);
+      color: var(--yellow);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      text-shadow: 3px 3px 0 var(--red);
+    }
+    .about-text p {
+      font-family: monospace;
+      font-size: 1rem;
+      color: var(--text-white);
+      line-height: 2.5;
+      margin-bottom: 16px;
+    }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+    .terminal {
+      background: #0D0D0D;
+      border: 3px solid rgba(255,224,0,0.35);
+      padding: 24px;
+      font-family: monospace;
+      line-height: 2.5;
+    }
+
+    .t-line { color: rgba(245,245,245,0.45); }
+    .t-cmd  { color: var(--yellow); }
+    .t-out  { color: var(--cyan); }
+    .t-out2 { color: var(--pink); }
+    .t-cursor { display: inline-block; width: 8px; height: 14px; background: var(--yellow); vertical-align: middle; }
+
+    /* ─── CONTACT ───────────────────────────────────────────── */
+    #contact {
+      padding: 80px var(--gap);
+      text-align: center;
+    }
+    .contact-title {
+      font-size: clamp(1rem, 4vw, 2.5rem);
+      color: var(--yellow);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      text-shadow: 4px 4px 0 var(--red);
+    }
+    .contact-sub {
+      font-family: monospace;
+      font-size: .9rem;
+      color: var(--text-white);
+      line-height: 2.5;
+      margin-bottom: 48px;
+      text-align: left;
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer {
+      border-top: var(--border);
+      padding: 32px var(--gap);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+      font-size: 0.6rem;
+      color: var(--yellow);
+    }
+
+    .link-github {
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    /* ─── PIXEL PELLETS ─────────────────────────────────────── */
+    .pellets {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      padding: 16px 10px;
+      opacity: 0.3;
+    }
+    .pellets span {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--yellow);
+      flex-shrink: 0;
+    }
+    .pellets span.big {
+      width: 14px; height: 14px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────── */
     @media (max-width: 768px) {
-      nav {
-        top: 20px;
-        right: 20px;
-      }
-
-      nav ul {
-        gap: 10px;
-      }
-
-      nav a {
-        font-size: 0.8rem;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      section {
-        padding: 60px 5%;
-      }
-
-      h2 {
-        font-size: 2rem;
-      }
-
-      .hero-title {
-        font-size: clamp(2rem, 10vw, 4rem);
-      }
-
-      .contact-btn {
-        padding: 15px 30px;
-        font-size: 0.9rem;
-        text-align: center;
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .pacman-hero { display: none; }
+      .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
       }
     }
 
-    @media (max-width: 480px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        right: 10px;
-      }
-
-      .glass-card {
-        padding: 20px;
-      }
-
-      .tag {
-        font-size: 0.75rem;
-        padding: 4px 8px;
-      }
-
-      .contact-btns-wrapper {
-        display: flex;
-        gap: 15px;
-      }
-
-      .contact-btn {
-        flex: 1;
-      }
+    /* ─── ENTRANCE ANIMATIONS ───────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tv-noise, .tv-noise::before, .glitch, .glitch::before, .glitch::after, .reveal, .scroll-down {
-        animation: none !important;
-        transition: none !important;
-        transform: none !important;
-      }
-
-      .reveal { opacity: 1; }
+    [data-reveal].visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
-
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
-  <div class="tv-noise"></div>
 
-  <nav aria-label="Primary navigation">
-    <ul class="nav-list">
-      <li><a href="#about">Bio</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
+
+  <!-- ── NAV ───────────────────────────────────────────────── -->
+  <nav>
+    <a href="#hero" class="nav-logo">DEV<span class="blink">_</span></a>
+    <ul class="nav-links">
+      <li><a href="#skills">SKILLS</a></li>
+      <li><a href="#projects">PROJECTS</a></li>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#contact">CONTACT</a></li>
     </ul>
+    <!-- <a href="#contact" class="nav-cta">HIRE ME</a> -->
   </nav>
 
-  <main id="main">
-    <section id="home">
-      <div class="text-dim-60 mb-10">// INITIALIZING_USER_INTERFACE</div>
-      <h1 class="hero-title glitch" data-text="Y.NIESTIEROV">Y.NIESTIEROV</h1>
-      <p class="subtitle">CREATIVE FRONTEND DEV</p>
-      <div class="scroll-down">SCROLL_TO_EXPLORE</div>
-    </section>
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="pacman-hero">JS</div>
 
-    <section id="about" class="reveal">
-      <h2>01. DATA_LOG</h2>
+    <div class="hero-inner">
+      <div class="hero-score-bar">
+        <span>PLAYER &nbsp; <strong>Y.NIESTIEROV</strong></span>
+        <span>HI-SCORE &nbsp; <strong id="score">000000</strong></span>
+      </div>
 
-      <div class="grid">
-        <div class="glass-card">
-          <h3>// BIOGRAPHY</h3>
+      <div class="pellets">
+        <span class="big"></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span class="big"></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span class="big"></span>
+      </div>
+
+      <h1 class="hero-title" data-reveal>
+        SOFTWEAR<br/>
+        <em>DEVELOPER</em>
+      </h1>
+      <p class="hero-sub" data-reveal>
+        [ ANGULAR, VUE.JS, JAVASCRIPT, TYPESCRIPT ]
+      </p>
+      <div class="hero-btns" data-reveal>
+        <a href="#projects" class="btn-primary">VIEW PROJECTS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="container">
+      <!-- <div class="section-label">PLAYER PROFILE</div> -->
+      <div class="about-grid">
+
+        <div class="about-text" data-reveal>
+          <h2>HI THERE, <br>MY NAME IS YEHOR NIESTIEROV.</h2>
           <p>
-            My core expertise centers on Angular and Vue, backed by TypeScript and JavaScript, allowing me to deliver
-            scalable and performant web solutions.
+            Skilled Frontend Developer with significent experience building high-performance, user-centric interfaces. I specialize in the Angular and Vue.js ecosystems, translating complex business requirements into scalable web solutions.
           </p>
-
-          <br>
-
           <p>
-            I ensure code reliability and accuracy through comprehensive unit testing with Jest.
+            What I bring to the table:
           </p>
-
-          <br>
-
           <p>
-            My work is grounded in a solid understanding of software development principles, design patterns,
-            and best practices.
+            Industry Expertise: Proven track record in demanding sectors like Telecommunications (engineering systems for mobile networks at ALTRON) and Pharma (optimizing data management and operational efficiency at Viseven).
           </p>
-
-          <br>
-
-          <p class="text-dim">LOCATION: [GDANSK, POLAND]</p>
-          <p class="text-dim">PREFERABLE FORMAT: [REMOTE]</p>
+          <p>
+            Versatility: Comfortable in both large-scale Scrum/Agile teams and small, fast-paced environments. I know how to navigate 2-week sprints and how to wear multiple hats when a project needs a quick win.
+          </p>
+          <p>
+            Code Quality: I focus on maintainable code and reliability. I have hands-on experience supporting legacy systems and ensuring logic correctness through unit testing (Jest).
+          </p>
+          <p>
+            Full-stack Perspective: Beyond the frontend, I have a strong interest in "under-the-hood" mechanics and non-commercial experience with Node.js/Express.
+          </p>
+          <p>
+            Logistics:
+            Based in Poland (Full EU work authorization).
+            Seamless collaboration across EU and US time zones.
+          </p>
         </div>
 
-        <div class="glass-card">
-          <h3>// TECH_STACK</h3>
+      </div>
+    </div>
+  </section>
 
-          <div class="mt-20">
-            <p class="text-dim">// WEB</p>
-            <span class="tag">HTML5/CSS3</span>
-            <span class="tag">PUG</span>
-            <span class="tag">LESS/SCSS</span>
-            <span class="tag">JavaScript (ES6+)</span>
-            <span class="tag">TypeScript</span>
-            <span class="tag">Angular</span>
-            <span class="tag">Vue.js</span>
-            <span class="tag">Ionic</span>
-            <span class="tag">Angular Material</span>
-            <span class="tag">Bootstrap</span>
-            <br>
-            <br>
+  <!-- ── PROJECTS ───────────────────────────────────────────── -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">LEVELS COMPLETED</div>
+      <div class="projects-grid">
 
-            <p class="text-dim">// BACKEND</p>
-            <span class="tag">Node.js</span>
-            <span class="tag">Express.js</span>
-            <span class="tag">Firebase</span>
-            <br>
-            <br>
-
-            <p class="text-dim">// TOOLS</p>
-            <span class="tag">Jest</span>
-            <span class="tag">CI/CD</span>
-            <span class="tag">GIT</span>
+        <a href="#" class="project-card" data-reveal>
+          <div class="project-number">LEVEL 01</div>
+          <div class="project-title">AI CHAT ASSISTANT</div>
+          <div class="project-desc">
+            Developed a chatbot interface for seamless user interactions with AI models. The assistant provides
+            real-time responses, context-aware suggestions, and a user-friendly experience, enhancing engagement
+            and accessibility to AI-powered insights.
           </div>
+          <div class="project-footer">
+            <span class="tag tag--cyan">LANGCHAIN</span>
+            <span class="tag tag--yellow">VUE.JS 3</span>
+            <span class="tag tag--pink">NODE.JS</span>
+            <span class="tag tag--green">EXPRESS</span>
+            <span class="tag tag--red">TYPESCRIPT</span>
+          </div>
+        </a>
+
+        <a href="#" class="project-card" data-reveal>
+          <div class="project-number">LEVEL 02</div>
+          <div class="project-title">CONTENT COMPLIANCE PLATFORM</div>
+          <div class="project-desc">
+            A secure web application designed to streamline content creation and multi-level verification.
+            It enforces strict compliance with standards and regulatory guidelines, reducing approval times and
+            eliminating compliance risks.
+          </div>
+          <div class="project-footer">
+            <span class="tag tag--yellow">PUG</span>
+            <span class="tag tag--cyan">VUE.JS 2</span>
+            <span class="tag tag--pink">TYPESCRIPT</span>
+            <span class="tag tag--red">MICROSERVICES</span>
+            <span class="tag tag--green">Storybook</span>
+          </div>
+        </a>
+
+        <a href="#" class="project-card" data-reveal>
+          <div class="project-number">LEVEL 03</div>
+          <div class="project-title">WORKFLOW SCHEDULLING PORTAL</div>
+          <div class="project-desc">
+            Engineered a time management web application to optimize routine workflows. The platform provides a
+            structured approach to meeting scheduling and task organization, resulting in seamless collaboration
+            and increased team efficiency.
+          </div>
+          <div class="project-footer">
+            <span class="tag tag--pink">ANGULAR</span>
+            <span class="tag tag--red">TYPESCRIPT</span>
+            <span class="tag tag--yellow">FIREBASE</span>
+          </div>
+        </a>
+
+        <a href="#" class="project-card" data-reveal>
+          <div class="project-number">LEVEL 04</div>
+          <div class="project-title">NETWORK MONITOR</div>
+          <div class="project-desc">
+            A dynamic web application that visualizes mobile network data in real time. It transforms complex metrics
+            into clear, actionable insights, empowering engineers to instantly detect issues, optimize network
+            performance, and make data-driven decisions.
+          </div>
+          <div class="project-footer">
+            <span class="tag tag--pink">ANGULAR</span>
+            <span class="tag tag--red">TYPESCRIPT</span>
+            <span class="tag tag--green">D3.JS</span>
+            <span class="tag tag--cyan">IONIC</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/hardsoncore/js-interviewer" class="project-card" data-reveal>
+          <div class="project-number">LEVEL 05</div>
+          <div class="project-title">JS INTERVIEWER</div>
+          <div class="project-desc">
+            Pet-project - an interactive web application that helps to prepare for JavaScript interviews.
+            Cross-platform Ionic app for iOS and Android.
+          </div>
+          <div class="project-footer">
+            <span class="tag tag--cyan">IONIC</span>
+            <span class="tag tag--yellow">Angular</span>
+            <span class="tag tag--red">TYPESCRIPT</span>
+          </div>
+        </a>
+
+        <a href="#" class="project-card" data-reveal style="border-style:dashed; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:220px;">
+          <div style="font-size:2rem; margin-bottom:16px; opacity:0.7;">+</div>
+          <div class="project-title" style="opacity:0.7;">COMING SOON...</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ─────────────────────────────────────────────── -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">SKILL SET</div>
+
+      <div class="skills-grid">
+        <div class="terminal" data-reveal>
+          <p class="t-line">$ WEB</p>
+          <p class="t-out">→ HTML5/CSS3</p>
+          <p class="t-out">→ PUG</p>
+          <p class="t-out">→ LESS/SCSS</p>
+          <p class="t-out">→ JavaScript (ES6+)</p>
+          <p class="t-out">→ TypeScript</p>
+          <p class="t-out">→ Angular</p>
+          <p class="t-out">→ Vue.js</p>
+          <p class="t-out">→ Ionic</p>
+          <p class="t-out">→ Angular Material</p>
+          <p class="t-out">→ Bootstrap</p>
+          <br/>
+          <p class="t-line">$ BACKEND</p>
+          <p class="t-out2">→ Docker / CI/CD / Git</p>
+          <br/>
+          <p class="t-line">$ TOOLS</p>
+          <p class="t-out">→ Node / Express / SQL</p>
+          <br/>
+          <p class="t-line">$ STATUS</p>
+          <p class="t-out" style="color:#00CC44;">● OPEN TO WORK</p>
+          <br/>
+          <div class="t-line">$ <span class="t-cursor blink"></span></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="projects" class="reveal">
-      <h2>02. WORK_ARCHIVE</h2>
+  <!-- ── CONTACT ────────────────────────────────────────────── -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label" style="justify-content:center; text-align:center;">INSERT COIN</div>
+      <h2 class="contact-title" data-reveal>START NEW LEVEL TOGETHER?</h2>
+      <p class="contact-sub" data-reveal>
+        If you need a reliable co-op partner for challenging frontend quests — I'd be glad to party up!
+        <br>
+        My Angular and Vue skill trees are well-upgraded, my TypeScript stats are solid, and I've completed plenty of high-difficulty campaigns involving complex UI systems, API integrations, and performance optimization dungeons. Whether it's a long-running guild project or a quick side quest, I come prepared with clean code, sharp eyes for detail, and enough patience to debug even the most cryptic error logs.
+        <br>
+        My social links and inventory are listed below — feel free to send a message, and let's see if we can conquer some frontend challenges together!
+      </p>
 
-      <div class="grid">
-        <div class="glass-card">
-          <div class="project-header">
-            <div class="project-domain">DOMAIN: [PHARMA]</div>
-            <p class="text-dim">AUG 2023-JAN 2026</p>
-          </div>
-          <h3>CONTENT_COMPLIANCE_PLATFORM</h3>
+      <a href="https://www.linkedin.com/in/niestierov-yehor/"  class="btn-ghost">CONTACT ME ON LINKEDIN</a>
+    </div>
+  </section>
 
-          <p class="mb-20">
-            A secure web application designed to streamline content creation and multi-level
-            verification. It enforces strict compliance with standards and regulatory guidelines,
-            reducing approval times and eliminating compliance risks.
-          </p>
-          <div class="tag">PUG</div>
-          <div class="tag">VUE.JS 2</div>
-          <div class="tag">TYPESCRIPT</div>
-          <div class="tag">MICROSERVICES</div>
-        </div>
+  <p style="text-align:center; font-family: monospace; color: transparent;">
+    Easter egg: Konami Code (↑↑↓↓←→←→BA) invert colors
+  </p>
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer>
+    <span class="logo">2026 ALL RIGHTS RESERVED</span>
+    <a class="link-github" href="https://github.com/hardsoncore">MY_GITHUB</a>
+  </footer>
 
-        <div class="glass-card">
-          <div class="project-header">
-            <div class="project-domain">DOMAIN: [PHARMA]</div>
-            <p class="text-dim">JUL 2025-PRESENT</p>
-          </div>
-          <h3>WORKFLOW_SCHEDULLING_PORTAL</h3>
-
-          <p class="mb-20">
-            Engineered a time management web application to optimize routine workflows.
-            The platform provides a structured approach to meeting scheduling and task organization,
-            resulting in seamless collaboration and increased team efficiency.
-          </p>
-          <div class="tag">VUE 3</div>
-          <div class="tag">TYPESCRIPT</div>
-          <div class="tag">FIREBASE</div>
-        </div>
-
-        <div class="glass-card">
-          <div class="project-header">
-            <div class="project-domain">DOMAIN: [TELECOM]</div>
-            <p class="text-dim">MAY 2019-JAN 2022</p>
-          </div>
-          <h3>NETWORK_MONITOR</h3>
-
-          <p class="mb-20">
-            A dynamic web application that visualizes mobile network data in real time. It transforms complex metrics into clear,
-            actionable insights, empowering engineers to instantly detect issues, optimize network performance, and make data-driven
-            decisions.
-          </p>
-          <div class="tag">ANGULAR</div>
-          <div class="tag">IONIC</div>
-          <div class="tag">D3.JS</div>
-        </div>
-
-        <div class="glass-card">
-          <div class="project-header">
-            <div class="project-domain">DOMAIN: [FINTECH]</div>
-            <p class="text-dim">APR 2025-PRESENT</p>
-          </div>
-          <h3>WALLET_APP</h3>
-
-          <p class="mb-20">
-            Personal finance dashboard for comprehensive budget management.
-            The application delivers seamless expense tracking, dynamic currency conversion, and intuitive
-            data visualization, providing users with clear insights into their financial health.
-          </p>
-          <div class="tag">ANGULAR</div>
-          <div class="tag">IONIC</div>
-          <div class="tag">FIREBASE</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="reveal">
-      <h2>03. CONTACT_ME</h2>
-      <div class="contact-container">
-        <p class="contact-intro">
-          Need code that breaks stereotypes?
-          <br>
-          The communication channel is open.
-        </p>
-        <div class="contact-btns-wrapper">
-          <a href="https://www.linkedin.com/in/niestierov-yehor" class="contact-btn" target="_blank" rel="noopener noreferrer">LINKED_IN</a>
-          <a href="https://github.com/hardsoncore" class="contact-btn contact-btn--secondary" target="_blank" rel="noopener noreferrer">GIT_HUB</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <button class="scroll-top-btn" aria-label="Scroll to top" type="button">↑</button>
-
+  <!-- ── SCRIPTS ────────────────────────────────────────────── -->
   <script>
-    // Detect Safari browser and add class for specific optimizations
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    if (isSafari) {
-      document.body.classList.add('is-safari');
-    }
-
-    // add "active" class to .reveal elements when they are in the viewport
+    // ── Intersection Observer для reveal-анимаций ──
+    const revealEls = document.querySelectorAll('[data-reveal]');
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.1 }); // Lowered threshold for better mobile support
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
 
-    document.querySelectorAll('.reveal').forEach(el => {
-      observer.observe(el);
-      // Check if element is already visible on page load
-      if (el.getBoundingClientRect().top < window.innerHeight) {
-        el.classList.add('active');
-      }
-    });
-
-    // Scroll Spy: highlight nav links based on current section in view
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
-
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Remove active class from all links
-          navLinks.forEach(link => link.classList.remove('active'));
-
-          const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
-          if (activeLink) {
-            activeLink.classList.add('active');
-          }
-        }
-      });
-    }, { threshold: 0.3 }); // Adjusted for better mobile navigation highlighting
-
-    sections.forEach(section => navObserver.observe(section));
-
-    // Scroll to Top Logic
-    const scrollBtn = document.querySelector('.scroll-top-btn');
-    scrollBtn.addEventListener('click', () => {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
+    // ── Score incrementer on scroll ──
+    let scoreVal = 0;
     window.addEventListener('scroll', () => {
-      if (document.documentElement.scrollTop > 1000) {
-        scrollBtn.classList.add('visible');
-      } else {
-        scrollBtn.classList.remove('visible');
+      scoreVal = Math.min(999999, scoreVal + Math.floor(window.scrollY / 10));
+      document.getElementById('score').textContent = String(scoreVal).padStart(6, '0');
+    });
+
+    // ── Keyboard nav Easter egg ──
+    let konamiBuffer = [];
+    const konamiCode = [38,38,40,40,37,39,37,39,66,65];
+    document.addEventListener('keydown', (e) => {
+      konamiBuffer.push(e.keyCode);
+      if (konamiBuffer.length > 10) konamiBuffer.shift();
+      if (JSON.stringify(konamiBuffer) === JSON.stringify(konamiCode)) {
+        document.body.style.filter = 'hue-rotate(180deg)';
+        setTimeout(() => document.body.style.filter = '', 3000);
       }
     });
   </script>
