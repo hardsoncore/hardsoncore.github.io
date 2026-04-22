@@ -181,6 +181,7 @@
     .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--red); }
 
     .btn-ghost {
+      display: block;
       font-family: var(--font);
       font-size: clamp(15px, 2vw, 1.5rem);
       background: transparent;
@@ -378,6 +379,14 @@
       .projects-grid {
         grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
       }
+
+      #hero { padding: 10px var(--gap) 40px; }
+
+      .hero-btns {
+        justify-content: center;
+      }
+
+      .container { padding: 0; }
     }
 
     /* ─── ENTRANCE ANIMATIONS ───────────────────────────────── */
@@ -617,9 +626,9 @@
         <br>
         My social links and inventory are listed below — feel free to send a message, and let's see if we can conquer some frontend challenges together!
       </p>
-
-      <a href="https://www.linkedin.com/in/niestierov-yehor/"  class="btn-ghost">CONTACT ME ON LINKEDIN</a>
     </div>
+
+    <a href="https://www.linkedin.com/in/niestierov-yehor/" class="btn-ghost">CONTACT ME ON LINKEDIN</a>
   </section>
 
   <p style="text-align:center; font-family: monospace; color: transparent;">
