@@ -181,7 +181,6 @@
     .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--red); }
 
     .btn-ghost {
-      display: block;
       font-family: var(--font);
       font-size: clamp(15px, 2vw, 1.5rem);
       background: transparent;
@@ -387,6 +386,10 @@
       }
 
       .container { padding: 0; }
+
+      .btn-ghost {
+        display: block;
+      }
     }
 
     /* ─── ENTRANCE ANIMATIONS ───────────────────────────────── */
@@ -408,9 +411,9 @@
   <nav>
     <a href="#hero" class="nav-logo">DEV<span class="blink">_</span></a>
     <ul class="nav-links">
-      <li><a href="#skills">SKILLS</a></li>
-      <li><a href="#projects">PROJECTS</a></li>
       <li><a href="#about">ABOUT</a></li>
+      <li><a href="#projects">PROJECTS</a></li>
+      <li><a href="#skills">SKILLS</a></li>
       <li><a href="#contact">CONTACT</a></li>
     </ul>
     <!-- <a href="#contact" class="nav-cta">HIRE ME</a> -->
@@ -492,7 +495,7 @@
       <div class="section-label">LEVELS COMPLETED</div>
       <div class="projects-grid">
 
-        <a href="#" class="project-card" data-reveal>
+        <a class="project-card" data-reveal>
           <div class="project-number">LEVEL 01</div>
           <div class="project-title">AI CHAT ASSISTANT</div>
           <div class="project-desc">
@@ -509,7 +512,7 @@
           </div>
         </a>
 
-        <a href="#" class="project-card" data-reveal>
+        <a class="project-card" data-reveal>
           <div class="project-number">LEVEL 02</div>
           <div class="project-title">CONTENT COMPLIANCE PLATFORM</div>
           <div class="project-desc">
@@ -526,7 +529,7 @@
           </div>
         </a>
 
-        <a href="#" class="project-card" data-reveal>
+        <a class="project-card" data-reveal>
           <div class="project-number">LEVEL 03</div>
           <div class="project-title">WORKFLOW SCHEDULLING PORTAL</div>
           <div class="project-desc">
@@ -541,7 +544,7 @@
           </div>
         </a>
 
-        <a href="#" class="project-card" data-reveal>
+        <a class="project-card" data-reveal>
           <div class="project-number">LEVEL 04</div>
           <div class="project-title">NETWORK MONITOR</div>
           <div class="project-desc">
@@ -571,7 +574,7 @@
           </div>
         </a>
 
-        <a href="#" class="project-card" data-reveal style="border-style:dashed; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:220px;">
+        <a class="project-card" data-reveal style="border-style:dashed; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:220px;">
           <div style="font-size:2rem; margin-bottom:16px; opacity:0.7;">+</div>
           <div class="project-title" style="opacity:0.7;">COMING SOON...</div>
         </a>
@@ -600,10 +603,11 @@
           <p class="t-out">→ Bootstrap</p>
           <br/>
           <p class="t-line">$ BACKEND</p>
-          <p class="t-out2">→ Docker / CI/CD / Git</p>
+          <p class="t-out2">→ Firebase</p>
+          <p class="t-out2">→ Node / Express / SQL</p>
           <br/>
           <p class="t-line">$ TOOLS</p>
-          <p class="t-out">→ Node / Express / SQL</p>
+          <p class="t-out">→ CI/CD / Git / Vite / Webpack</p>
           <br/>
           <p class="t-line">$ STATUS</p>
           <p class="t-out" style="color:#00CC44;">● OPEN TO WORK</p>
